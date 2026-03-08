@@ -9,7 +9,7 @@ export async function GET() {
     await connectDB();
     const footer = await Footer.findOne();
     return NextResponse.json(footer);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch footer' }, { status: 500 });
   }
 }
@@ -26,7 +26,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     await Footer.findOneAndUpdate({}, body, { upsert: true, new: true });
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update footer' }, { status: 500 });
   }
 }

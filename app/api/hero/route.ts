@@ -9,7 +9,7 @@ export async function GET() {
     await connectDB();
     const hero = await Hero.findOne();
     return NextResponse.json(hero);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch hero content' }, { status: 500 });
   }
 }
@@ -26,7 +26,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     await Hero.findOneAndUpdate({}, body, { upsert: true, new: true });
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update hero content' }, { status: 500 });
   }
 }

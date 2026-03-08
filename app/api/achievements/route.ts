@@ -9,7 +9,7 @@ export async function GET() {
     await connectDB();
     const achievements = await Achievement.find().sort({ order: 1 });
     return NextResponse.json(achievements);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch achievements' }, { status: 500 });
   }
 }
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     });
     
     return NextResponse.json(newAchievement);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to create achievement' }, { status: 500 });
   }
 }
@@ -61,7 +61,7 @@ export async function PUT(request: NextRequest) {
     }
     
     return NextResponse.json(achievement);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update achievement' }, { status: 500 });
   }
 }
@@ -85,7 +85,7 @@ export async function DELETE(request: NextRequest) {
     await Achievement.findOneAndDelete({ id });
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete achievement' }, { status: 500 });
   }
 }

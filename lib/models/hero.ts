@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from 'mongoose'
+import { Schema, model, models } from 'mongoose'
 
 const ButtonSchema = new Schema({
   label: { type: String, required: true },

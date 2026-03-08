@@ -11,7 +11,7 @@ export async function GET() {
     await connectDB();
     const resume = await Resume.findOne();
     return NextResponse.json(resume);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch resume' }, { status: 500 });
   }
 }
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     
     try {
       await mkdir(uploadsDir, { recursive: true });
-    } catch (error) {
+    } catch {
       // Directory might already exist
     }
 
@@ -56,8 +56,8 @@ export async function POST(request: NextRequest) {
     await Resume.findOneAndUpdate({}, resumeData, { upsert: true, new: true });
 
     return NextResponse.json({ success: true, fileName: filename });
-  } catch (error) {
-    console.error('Resume upload error:', error);
+  } catch {
+    console.error('Resume upload error');
     return NextResponse.json({ error: 'Failed to upload resume' }, { status: 500 });
   }
 }

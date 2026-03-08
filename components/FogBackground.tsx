@@ -29,10 +29,6 @@ export default function FogBackground() {
       subtree: true
     });
     
-    // Log success
-    console.log('✅ Ghost fog layers mounted');
-    console.log('   → Body background:', getComputedStyle(document.body).backgroundColor);
-    
     return () => {
       observer.disconnect();
     };

@@ -9,7 +9,7 @@ export async function GET() {
     await connectDB();
     const certifications = await Certification.find().sort({ order: 1 });
     return NextResponse.json(certifications);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch certifications' }, { status: 500 });
   }
 }
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     });
     
     return NextResponse.json(newCert);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to create certification' }, { status: 500 });
   }
 }
@@ -62,7 +62,7 @@ export async function PUT(request: NextRequest) {
     }
     
     return NextResponse.json(cert);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update certification' }, { status: 500 });
   }
 }
@@ -86,7 +86,7 @@ export async function DELETE(request: NextRequest) {
     await Certification.findOneAndDelete({ id });
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete certification' }, { status: 500 });
   }
 }

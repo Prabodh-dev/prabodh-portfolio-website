@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     
     try {
       await mkdir(uploadsDir, { recursive: true });
-    } catch (error) {
+    } catch {
       // Directory might already exist
     }
 
@@ -38,8 +38,8 @@ export async function POST(request: NextRequest) {
     const url = `/uploads/${filename}`;
 
     return NextResponse.json({ url, filename });
-  } catch (error) {
-    console.error('Upload error:', error);
+  } catch {
+    console.error('Upload error');
     return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 });
   }
 }

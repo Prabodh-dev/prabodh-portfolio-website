@@ -9,7 +9,7 @@ export async function GET() {
     await connectDB();
     const experiences = await Experience.find().sort({ order: 1 });
     return NextResponse.json(experiences);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch experiences' }, { status: 500 });
   }
 }
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     });
     
     return NextResponse.json(newExperience);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to create experience' }, { status: 500 });
   }
 }
@@ -61,7 +61,7 @@ export async function PUT(request: NextRequest) {
     }
     
     return NextResponse.json(experience);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update experience' }, { status: 500 });
   }
 }
@@ -85,7 +85,7 @@ export async function DELETE(request: NextRequest) {
     await Experience.findOneAndDelete({ id });
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete experience' }, { status: 500 });
   }
 }

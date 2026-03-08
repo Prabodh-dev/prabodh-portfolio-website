@@ -1,10 +1,16 @@
 import mongoose from 'mongoose'
 
-declare global {
-  var mongoose: { conn: any; promise: any } | undefined
+interface MongooseCache {
+  conn: typeof mongoose | null
+  promise: Promise<typeof mongoose> | null
 }
 
-let cached = global.mongoose || { conn: null, promise: null }
+declare global {
+  // eslint-disable-next-line no-var
+  var mongoose: MongooseCache | undefined
+}
+
+const cached: MongooseCache = global.mongoose || { conn: null, promise: null }
 global.mongoose = cached
 
 async function connectDB() {

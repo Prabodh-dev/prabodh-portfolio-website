@@ -18,7 +18,7 @@ export async function GET(
     }
     
     return NextResponse.json(project);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch project' }, { status: 500 });
   }
 }
@@ -49,7 +49,7 @@ export async function PUT(
     }
     
     return NextResponse.json(project);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update project' }, { status: 500 });
   }
 }
@@ -70,7 +70,7 @@ export async function DELETE(
     await Project.findOneAndDelete({ id });
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete project' }, { status: 500 });
   }
 }

@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from 'mongoose'
+import { Schema, model, models } from 'mongoose'
 
 const CustomLinkSchema = new Schema({
   label: { type: String, required: true },

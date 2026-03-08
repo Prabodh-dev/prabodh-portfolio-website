@@ -18,6 +18,7 @@ dotenv.config({ path: '.env.local' })
 
 async function seed() {
   try {
+    console.log('⚠️  WARNING: This will clear all existing data in MongoDB!')
     console.log('Connecting to MongoDB...')
     await connectDB()
     console.log('Connected to MongoDB!')
@@ -90,8 +91,8 @@ async function seed() {
 
     console.log('✅ Seeding complete!')
     process.exit(0)
-  } catch (error) {
-    console.error('❌ Error seeding database:', error)
+  } catch {
+    console.error('❌ Error seeding database')
     process.exit(1)
   }
 }

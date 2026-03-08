@@ -9,7 +9,7 @@ export async function GET() {
     await connectDB();
     const about = await About.findOne();
     return NextResponse.json(about);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch about content' }, { status: 500 });
   }
 }
@@ -26,7 +26,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     await About.findOneAndUpdate({}, body, { upsert: true, new: true });
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update about content' }, { status: 500 });
   }
 }

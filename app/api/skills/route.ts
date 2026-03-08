@@ -9,7 +9,7 @@ export async function GET() {
     await connectDB();
     const skillCategories = await SkillCategory.find().sort({ order: 1 });
     return NextResponse.json(skillCategories);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch skills' }, { status: 500 });
   }
 }
@@ -30,7 +30,7 @@ export async function PUT(request: NextRequest) {
     await SkillCategory.insertMany(body);
     
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update skills' }, { status: 500 });
   }
 }
