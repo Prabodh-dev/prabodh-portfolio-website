@@ -1,0 +1,10 @@
+# Robots.txt for Prabodh Raj Portfolio
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /apps/admin/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://prabodhportfolio.com/sitemap.xml

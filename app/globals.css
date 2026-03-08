@@ -1,0 +1,722 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* FORCE BACKGROUND AND NAVBAR STYLES */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+html, body {
+  background: #080808 !important;
+  background-color: #080808 !important;
+}
+
+/* Force navbar/header glassmorphism */
+header, nav, .navbar, #navbar {
+  background: rgba(8, 8, 8, 0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: none !important;
+}
+
+/* Force nav link colors */
+nav a, .nav-link, header a, header button {
+  color: rgba(255,255,255,0.55) !important;
+  transition: all 0.2s ease !important;
+  text-shadow: none !important;
+}
+
+nav a:hover, .nav-link:hover, header a:hover, header button:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 14px rgba(255,255,255,0.55) !important;
+}
+
+/* Force main containers to be transparent to show fog */
+main, section, .wrapper, .container {
+  background: transparent !important;
+}
+
+/* Main content wrapper needs z-index and positioning */
+main {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Exception: keep card/panel backgrounds */
+.neon-box, .neon-box-cyan, .neon-box-pink, .retro-card, .game-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Force ghost mascot container to have NO background - but allow speech bubble */
+#ghost-mascot {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove pseudo-elements that may create dark box */
+#ghost-mascot::before,
+#ghost-mascot::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* Ghost wrapper div - transparent */
+#ghost-mascot > div:not([class*="absolute"]) {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove pseudo-elements on wrapper */
+#ghost-mascot > div::before,
+#ghost-mascot > div::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* SVG itself - transparent */
+#ghost-mascot svg {
+  background: transparent !important;
+  background-color: transparent !important;
+  display: block !important;
+}
+
+/* Speech bubble - PURE WHITE background with black text */
+#ghost-mascot .absolute > div,
+#ghost-mascot [class*="bubble"],
+#ghost-mascot [class*="speech"] {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+  backdrop-filter: none !important;
+}
+
+/* Speech bubble triangle/arrow - white */
+#ghost-mascot .absolute > div > div {
+  border-top-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+  background: transparent !important;
+}
+
+@layer base {
+  body {
+    font-family: 'Courier New', Courier, monospace;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4' fill='white' opacity='0.8'/%3E%3C/svg%3E") 12 12, auto;
+    position: relative;
+  }
+  
+  /* Custom ghost cursor trail */
+  * {
+    cursor: inherit;
+  }
+  
+  a, button {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='6' fill='white' opacity='0.9'/%3E%3C/svg%3E") 12 12, pointer;
+  }
+}
+
+@layer utilities {
+  /* Black Ghost: Remove colored grids, use pure black */
+  .retro-grid {
+    background-color: transparent !important;
+    background: transparent !important;
+    position: relative;
+  }
+  
+  /* Admin pages need solid background */
+  .admin-bg {
+    background-color: #080808 !important;
+    position: relative;
+  }
+  
+  /* Ghost Scanline Effect - barely visible */
+  .scanlines::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.015),
+      rgba(255, 255, 255, 0.015) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+  
+  /* Glass-morphism boxes - white/ghost aesthetic */
+  .neon-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.05),
+      inset 0 0 20px rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+  }
+  
+  .neon-box-cyan {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 0 10px rgba(200, 200, 255, 0.1),
+      inset 0 0 20px rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+  }
+  
+  .neon-box-pink {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 0 15px rgba(255, 255, 255, 0.15),
+      inset 0 0 20px rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Ghost White Text Glow */
+  .neon-text {
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.3),
+      0 0 20px rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Glass-morphism Button */
+  .retro-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.1),
+      0 0 20px rgba(200, 200, 255, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    color: #f0f0f0;
+  }
+  
+  .retro-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 0 15px rgba(255, 255, 255, 0.2),
+      0 0 30px rgba(200, 200, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .retro-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+  
+  .retro-btn:hover::before {
+    left: 100%;
+  }
+  
+  /* CRT Screen Effect */
+  .crt-screen {
+    position: relative;
+    animation: flicker 0.15s infinite;
+  }
+  
+  .crt-screen::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* Retro Card - Ghost white */
+  .retro-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      0 0 10px rgba(255, 255, 255, 0.08),
+      inset 0 0 10px rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  
+  .retro-card:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 
+      0 12px 48px rgba(0, 0, 0, 0.6),
+      0 0 20px rgba(255, 255, 255, 0.15),
+      inset 0 0 15px rgba(255, 255, 255, 0.03);
+    transform: translateY(-4px);
+  }
+  
+  /* Glitch Effect */
+  @keyframes glitch {
+    0% {
+      transform: translate(0);
+    }
+    20% {
+      transform: translate(-2px, 2px);
+    }
+    40% {
+      transform: translate(-2px, -2px);
+    }
+    60% {
+      transform: translate(2px, 2px);
+    }
+    80% {
+      transform: translate(2px, -2px);
+    }
+    100% {
+      transform: translate(0);
+    }
+  }
+  
+  .glitch:hover {
+    animation: glitch 0.3s infinite;
+  }
+
+  /* HP Bar Style - Ghost white */
+  .hp-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hp-bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    animation: hp-fill 2s ease-out;
+  }
+
+  @keyframes hp-fill {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  /* Hexagon corners for game-style boxes */
+  .hex-corners {
+    position: relative;
+    clip-path: polygon(
+      10px 0%, calc(100% - 10px) 0%, 
+      100% 10px, 100% calc(100% - 10px), 
+      calc(100% - 10px) 100%, 10px 100%, 
+      0% calc(100% - 10px), 0% 10px
+    );
+  }
+
+  /* Pixel border effect - white ghost */
+  .pixel-border {
+    box-shadow: 
+      -4px -4px 0 0 rgba(255, 255, 255, 0.15),
+      4px -4px 0 0 rgba(255, 255, 255, 0.15),
+      -4px 4px 0 0 rgba(255, 255, 255, 0.15),
+      4px 4px 0 0 rgba(255, 255, 255, 0.15);
+  }
+
+  /* Gaming Loading Animations */
+  @keyframes loading-bar {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-loading-bar {
+    animation: loading-bar 2s ease-in-out infinite;
+  }
+
+  @keyframes counter {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .animate-counter {
+    animation: counter 1.5s ease-in-out infinite;
+  }
+
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+
+  /* Game-Style Section Containers */
+  .game-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .game-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.01) 0px,
+      rgba(255, 255, 255, 0.01) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Angled Card Style - Ghost white glass */
+  .game-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    clip-path: polygon(
+      0% 8px, 8px 0%, 
+      calc(100% - 8px) 0%, 100% 8px,
+      100% calc(100% - 8px), calc(100% - 8px) 100%,
+      8px 100%, 0% calc(100% - 8px)
+    );
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  .game-card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: rgba(255, 255, 255, 0.05);
+    clip-path: polygon(
+      0% 8px, 8px 0%, 
+      calc(100% - 8px) 0%, 100% 8px,
+      100% calc(100% - 8px), calc(100% - 8px) 100%,
+      8px 100%, 0% calc(100% - 8px)
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .game-card:hover::before {
+    opacity: 1;
+  }
+
+  .game-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* HUD-style corners */
+  .hud-corners::before,
+  .hud-corners::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid currentColor;
+  }
+
+  .hud-corners::before {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .hud-corners::after {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+  }
+
+  /* Terminal-style typing effect */
+  @keyframes typing-cursor {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .typing-cursor::after {
+    content: "▋";
+    animation: typing-cursor 1s infinite;
+    margin-left: 2px;
+  }
+
+  /* Stat bar fill animation */
+  @keyframes stat-fill {
+    from {
+      width: 0%;
+    }
+    to {
+      width: var(--stat-width, 100%);
+    }
+  }
+
+  .stat-bar {
+    position: relative;
+    height: 8px;
+    background: rgba(15, 15, 15, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+  }
+
+  .stat-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(200, 200, 255, 0.8));
+    animation: stat-fill 1.5s ease-out;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+  }
+
+  /* Mission card style */
+  .mission-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(15, 15, 15, 0.9), rgba(8, 8, 8, 0.95));
+    border-left: 4px solid rgba(255, 255, 255, 0.3);
+    border-right: 4px solid rgba(200, 200, 255, 0.3);
+    padding: 1.5rem;
+    clip-path: polygon(
+      0% 0%, calc(100% - 12px) 0%, 100% 12px,
+      100% 100%, 12px 100%, 0% calc(100% - 12px)
+    );
+    transition: all 0.3s ease;
+  }
+
+  .mission-card:hover {
+    border-left-color: rgba(255, 255, 255, 0.6);
+    border-right-color: rgba(200, 200, 255, 0.6);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: translateX(8px);
+  }
+
+  /* Achievement badge style */
+  .achievement-badge {
+    position: relative;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), rgba(15, 15, 15, 0.9));
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    clip-path: polygon(
+      50% 0%, 75% 10%, 100% 25%, 100% 75%,
+      75% 90%, 50% 100%, 25% 90%, 0% 75%,
+      0% 25%, 25% 10%
+    );
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .achievement-badge:hover {
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  /* XP bar style */
+  .xp-bar {
+    position: relative;
+    height: 12px;
+    background: linear-gradient(135deg, rgba(8, 8, 8, 0.9), rgba(15, 15, 15, 0.9));
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .xp-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, rgba(200, 200, 255, 0.8) 50%, rgba(255, 255, 255, 0.9) 100%);
+    background-size: 200% 100%;
+    animation: xp-shimmer 2s linear infinite;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  }
+
+  @keyframes xp-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Power-up glow effect */
+  .power-up-glow {
+    animation: power-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes power-glow {
+    0%, 100% {
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.15);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(200, 200, 255, 0.5), 0 0 40px rgba(200, 200, 255, 0.25);
+    }
+  }
+
+  /* Pixel corners for retro game feel */
+  .pixel-corners {
+    position: relative;
+  }
+
+  .pixel-corners::before,
+  .pixel-corners::after,
+  .pixel-corners > *::before,
+  .pixel-corners > *::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 2px solid currentColor;
+  }
+
+  .pixel-corners::before {
+    top: -2px;
+    left: -2px;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .pixel-corners::after {
+    top: -2px;
+    right: -2px;
+    border-left: none;
+    border-bottom: none;
+  }
+
+  /* Quest indicator pulse */
+  @keyframes quest-pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.7;
+    }
+  }
+
+  .quest-indicator {
+    animation: quest-pulse 2s ease-in-out infinite;
+  }
+
+  /* Level-up sparkle effect */
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1) rotate(180deg);
+    }
+  }
+  
+  /* Lightning flash effect */
+  @keyframes lightningFlash {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    20% {
+      opacity: 0.6;
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  /* Lightning bolt appear animation */
+  @keyframes lightningBoltAppear {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) rotate(var(--rotation, 0deg)) scaleY(0);
+      transform-origin: top center;
+    }
+    10% {
+      opacity: 1;
+      transform: translateX(-50%) rotate(var(--rotation, 0deg)) scaleY(1);
+    }
+    20% {
+      opacity: 0.5;
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) rotate(var(--rotation, 0deg)) scaleY(1);
+    }
+  }
+  
+  /* STEP 2: Fog Pulse Animation for ghost-fog div */
+  @keyframes fogPulse {
+    0%, 100% { 
+      opacity: 1; 
+    }
+    50% { 
+      opacity: 0.55; 
+    }
+  }
+}
+
