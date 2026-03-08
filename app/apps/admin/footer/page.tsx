@@ -7,7 +7,7 @@ import { FooterContent } from '@/types/portfolio';
 import GameLoader from '@/components/GameLoader';
 
 export default function FooterAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [content, setContent] = useState<FooterContent | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -35,7 +35,7 @@ export default function FooterAdmin() {
       } else {
         setMessage('Failed to save');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error occurred');
     } finally {
       setSaving(false);

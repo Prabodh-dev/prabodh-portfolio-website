@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import connectDB from '@/lib/mongodb';
 import { Resume } from '@/lib/models/resume';
-import { writeFile, mkdir } from 'fs/promises';
+import { writeFile } from 'fs/promises';
 import path from 'path';
 
 export async function GET() {
@@ -34,30 +34,20 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    
-    try {
-      await mkdir(uploadsDir, { recursive: true });
-    } catch {
-      // Directory might already exist
-    }
-
-    const filename = `resume-${Date.now()}.pdf`;
-    const filepath = path.join(uploadsDir, filename);
-
+    // Save as static resume.pdf in public folder
+    const filepath = path.join(process.cwd(), 'public', 'resume.pdf');
     await writeFile(filepath, buffer);
 
     const resumeData = {
-      fileName: filename,
+      fileName: 'resume.pdf',
       uploadDate: new Date(),
     };
 
     await connectDB();
     await Resume.findOneAndUpdate({}, resumeData, { upsert: true, new: true });
 
-    return NextResponse.json({ success: true, fileName: filename });
+    return NextResponse.json({ success: true, fileName: 'resume.pdf' });
   } catch {
-    console.error('Resume upload error');
     return NextResponse.json({ error: 'Failed to upload resume' }, { status: 500 });
   }
 }

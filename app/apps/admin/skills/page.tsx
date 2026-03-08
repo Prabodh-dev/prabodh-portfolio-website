@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { SkillCategory, Skill } from '@/types/portfolio';
+import { SkillCategory } from '@/types/portfolio';
 import GameLoader from '@/components/GameLoader';
 
 export default function SkillsAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [categories, setCategories] = useState<SkillCategory[]>([]);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -34,7 +34,7 @@ export default function SkillsAdmin() {
       } else {
         setMessage('Failed to save');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error occurred');
     } finally {
       setSaving(false);

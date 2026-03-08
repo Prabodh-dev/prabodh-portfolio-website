@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+import cloudinary from '@/lib/cloudinary';
 
 export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -21,25 +20,23 @@ export async function POST(request: NextRequest) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
     
-    try {
-      await mkdir(uploadsDir, { recursive: true });
-    } catch {
-      // Directory might already exist
-    }
+    // Convert buffer to base64 data URI
+    const base64 = buffer.toString('base64');
+    const dataURI = `data:${file.type};base64,${base64}`;
 
-    const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-    const filepath = path.join(uploadsDir, filename);
+    // Upload to Cloudinary
+    const result = await cloudinary.uploader.upload(dataURI, {
+      folder: 'portfolio',
+      resource_type: 'auto',
+      public_id: `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`,
+    });
 
-    await writeFile(filepath, buffer);
-
-    const url = `/uploads/${filename}`;
-
-    return NextResponse.json({ url, filename });
+    return NextResponse.json({ 
+      url: result.secure_url,
+      publicId: result.public_id 
+    });
   } catch {
-    console.error('Upload error');
     return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 });
   }
 }

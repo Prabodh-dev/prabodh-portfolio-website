@@ -7,7 +7,7 @@ import { ContactContent } from '@/types/portfolio';
 import GameLoader from '@/components/GameLoader';
 
 export default function ContactAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [content, setContent] = useState<ContactContent | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -35,7 +35,7 @@ export default function ContactAdmin() {
       } else {
         setMessage('Failed to save');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error occurred');
     } finally {
       setSaving(false);

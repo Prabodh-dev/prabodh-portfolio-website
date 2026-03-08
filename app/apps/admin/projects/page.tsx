@@ -7,7 +7,7 @@ import { Project } from '@/types/portfolio';
 import GameLoader from '@/components/GameLoader';
 
 export default function ProjectsAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [projects, setProjects] = useState<Project[]>([]);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [isCreating, setIsCreating] = useState(false);

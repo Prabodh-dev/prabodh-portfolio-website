@@ -28,7 +28,7 @@ export default function AdminLogin() {
       } else {
         router.push('/apps/admin');
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred');
     } finally {
       setLoading(false);

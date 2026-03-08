@@ -7,7 +7,7 @@ import { Achievement } from '@/types/portfolio';
 import GameLoader from '@/components/GameLoader';
 
 export default function AchievementsAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [editingAchievement, setEditingAchievement] = useState<Achievement | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -33,7 +33,7 @@ export default function AchievementsAdmin() {
       if (response.ok) {
         loadAchievements();
       }
-    } catch (error) {
+    } catch {
       // Error handling - could implement user notification here
     }
   };
@@ -71,7 +71,7 @@ export default function AchievementsAdmin() {
         setIsCreating(false);
         loadAchievements();
       }
-    } catch (error) {
+    } catch {
       // Error handling - could implement user notification here
     }
   };

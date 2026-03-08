@@ -7,7 +7,7 @@ import GameLoader from '@/components/GameLoader';
 import { ResumeContent } from '@/types/portfolio';
 
 export default function ResumeAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [resume, setResume] = useState<ResumeContent | null>(null);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
@@ -50,7 +50,7 @@ export default function ResumeAdmin() {
       } else {
         setMessage('Failed to upload resume');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error occurred');
     } finally {
       setUploading(false);

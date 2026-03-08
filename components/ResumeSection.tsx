@@ -40,7 +40,7 @@ export default function ResumeSection() {
           {resume?.fileName ? (
             <div className="space-y-4">
               <a
-                href={`/uploads/${resume.fileName}`}
+                href="/resume.pdf"
                 download
                 onClick={() => ghostSpeak(GHOST_MESSAGES.home.downloadResume)}
                 className="inline-flex items-center gap-2 bg-white text-black px-6 sm:px-8 py-3 sm:py-4 font-mono font-bold uppercase text-sm sm:text-base hover:bg-white/90 transition-all shadow-ghost-glow"

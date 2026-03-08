@@ -2,10 +2,6 @@
 
 import { useEffect, useState, useRef } from 'react';
 
-interface GhostMascotProps {
-  onInteraction?: (message: string) => void;
-}
-
 const idleMessages = [
   "Still there? 👀",
   "Boo... did I scare you?",
@@ -36,7 +32,7 @@ const dropMessages = [
   "Chillin' at my new spot! 😎",
 ];
 
-export default function GhostMascot({ onInteraction }: GhostMascotProps) {
+export default function GhostMascot() {
   const [message, setMessage] = useState("BOO! Welcome to my realm 👻");
   const [showMessage, setShowMessage] = useState(true);
   const [lastActivityTime, setLastActivityTime] = useState(Date.now());
@@ -111,7 +107,7 @@ export default function GhostMascot({ onInteraction }: GhostMascotProps) {
     });
   };
 
-  const handleMouseUp = (e: MouseEvent) => {
+  const handleMouseUp = () => {
     if (!isDragging) return;
     setIsDragging(false);
     
@@ -131,7 +127,7 @@ export default function GhostMascot({ onInteraction }: GhostMascotProps) {
     }
   };
 
-  const handleGhostClick = (e: React.MouseEvent) => {
+  const handleGhostClick = () => {
     // Only trigger click message if not dragging
     if (!hasDraggedRef.current) {
       const messages = [
@@ -202,6 +198,7 @@ export default function GhostMascot({ onInteraction }: GhostMascotProps) {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastActivityTime, isDragging]);
 
   // Calculate speech bubble position based on ghost location

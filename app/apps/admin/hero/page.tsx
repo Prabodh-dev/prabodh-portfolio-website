@@ -7,7 +7,7 @@ import GameLoader from '@/components/GameLoader';
 import { HeroContent } from '@/types/portfolio';
 
 export default function HeroAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [content, setContent] = useState<HeroContent | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -35,7 +35,7 @@ export default function HeroAdmin() {
       } else {
         setMessage('Failed to save');
       }
-    } catch (error) {
+    } catch {
       setMessage('Error occurred');
     } finally {
       setSaving(false);
@@ -147,6 +147,7 @@ export default function HeroAdmin() {
               className="w-full px-4 py-2 bg-retro-gray border-2 border-retro-purple/30 text-retro-cyan font-mono file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-retro-purple file:text-retro-dark file:font-mono file:cursor-pointer hover:file:bg-retro-pink"
             />
             {content.profileImage && (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={content.profileImage} alt="Profile" className="mt-4 w-32 h-32 object-cover border-2 border-retro-cyan shadow-neon-cyan" />
             )}
           </div>

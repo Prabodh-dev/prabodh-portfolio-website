@@ -104,7 +104,7 @@ export default function Home() {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // AMBIENT REACTION 7: Right Click Detection
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    const handleContextMenu = (e: MouseEvent) => {
+    const handleContextMenu = () => {
       ghostSpeak(GHOST_MESSAGES.ambient.rightClick, 3500);
     };
 

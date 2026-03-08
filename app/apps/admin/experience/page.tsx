@@ -7,7 +7,7 @@ import { Experience } from '@/types/portfolio';
 import GameLoader from '@/components/GameLoader';
 
 export default function ExperienceAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [editingExp, setEditingExp] = useState<Experience | null>(null);
   const [isCreating, setIsCreating] = useState(false);

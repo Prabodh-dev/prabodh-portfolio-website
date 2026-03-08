@@ -7,7 +7,7 @@ import { Certification } from '@/types/portfolio';
 import GameLoader from '@/components/GameLoader';
 
 export default function CertificationsAdmin() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [certifications, setCertifications] = useState<Certification[]>([]);
   const [editingCert, setEditingCert] = useState<Certification | null>(null);
   const [isCreating, setIsCreating] = useState(false);
