@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { readDb, writeDb } from '@/lib/db';
-import { Experience } from '@/types/portfolio';
+import connectDB from '@/lib/mongodb';
+import { Experience } from '@/lib/models/experiences';
 
 export async function GET() {
   try {
-    const data = readDb();
-    return NextResponse.json(data.experiences);
+    await connectDB();
+    const experiences = await Experience.find().sort({ order: 1 });
+    return NextResponse.json(experiences);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch experiences' }, { status: 500 });
   }
@@ -21,17 +22,16 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    await connectDB();
     const body = await request.json();
-    const data = readDb();
     
-    const newExperience: Experience = {
+    const experienceCount = await Experience.countDocuments();
+    
+    const newExperience = await Experience.create({
       ...body,
       id: `exp-${Date.now()}`,
-      order: data.experiences.length + 1,
-    };
-    
-    data.experiences.push(newExperience);
-    writeDb(data);
+      order: experienceCount + 1,
+    });
     
     return NextResponse.json(newExperience);
   } catch (error) {
@@ -47,19 +47,20 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
+    await connectDB();
     const body = await request.json();
-    const data = readDb();
     
-    const index = data.experiences.findIndex(e => e.id === body.id);
+    const experience = await Experience.findOneAndUpdate(
+      { id: body.id },
+      body,
+      { new: true }
+    );
     
-    if (index === -1) {
+    if (!experience) {
       return NextResponse.json({ error: 'Experience not found' }, { status: 404 });
     }
     
-    data.experiences[index] = body;
-    writeDb(data);
-    
-    return NextResponse.json(data.experiences[index]);
+    return NextResponse.json(experience);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update experience' }, { status: 500 });
   }
@@ -80,9 +81,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'ID required' }, { status: 400 });
     }
     
-    const data = readDb();
-    data.experiences = data.experiences.filter(e => e.id !== id);
-    writeDb(data);
+    await connectDB();
+    await Experience.findOneAndDelete({ id });
     
     return NextResponse.json({ success: true });
   } catch (error) {

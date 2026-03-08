@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { readDb, writeDb } from '@/lib/db';
+import connectDB from '@/lib/mongodb';
+import { Project } from '@/lib/models/projects';
 
 export async function GET(
   request: NextRequest,
@@ -9,8 +10,8 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const data = readDb();
-    const project = data.projects.find(p => p.id === id);
+    await connectDB();
+    const project = await Project.findOne({ id });
     
     if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
@@ -35,18 +36,19 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const data = readDb();
+    await connectDB();
     
-    const index = data.projects.findIndex(p => p.id === id);
+    const project = await Project.findOneAndUpdate(
+      { id },
+      body,
+      { new: true }
+    );
     
-    if (index === -1) {
+    if (!project) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
     
-    data.projects[index] = { ...data.projects[index], ...body };
-    writeDb(data);
-    
-    return NextResponse.json(data.projects[index]);
+    return NextResponse.json(project);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update project' }, { status: 500 });
   }
@@ -64,9 +66,8 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    const data = readDb();
-    data.projects = data.projects.filter(p => p.id !== id);
-    writeDb(data);
+    await connectDB();
+    await Project.findOneAndDelete({ id });
     
     return NextResponse.json({ success: true });
   } catch (error) {

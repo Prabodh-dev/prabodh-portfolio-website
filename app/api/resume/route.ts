@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { readDb, updateSection } from '@/lib/db';
+import connectDB from '@/lib/mongodb';
+import { Resume } from '@/lib/models/resume';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
 export async function GET() {
   try {
-    const data = readDb();
-    return NextResponse.json(data.resume);
+    await connectDB();
+    const resume = await Resume.findOne();
+    return NextResponse.json(resume);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch resume' }, { status: 500 });
   }
@@ -47,10 +49,11 @@ export async function POST(request: NextRequest) {
 
     const resumeData = {
       fileName: filename,
-      uploadDate: new Date().toISOString(),
+      uploadDate: new Date(),
     };
 
-    updateSection('resume', resumeData);
+    await connectDB();
+    await Resume.findOneAndUpdate({}, resumeData, { upsert: true, new: true });
 
     return NextResponse.json({ success: true, fileName: filename });
   } catch (error) {

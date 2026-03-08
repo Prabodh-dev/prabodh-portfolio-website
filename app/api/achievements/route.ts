@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { readDb, writeDb } from '@/lib/db';
-import { Achievement } from '@/types/portfolio';
+import connectDB from '@/lib/mongodb';
+import { Achievement } from '@/lib/models/achievements';
 
 export async function GET() {
   try {
-    const data = readDb();
-    return NextResponse.json(data.achievements);
+    await connectDB();
+    const achievements = await Achievement.find().sort({ order: 1 });
+    return NextResponse.json(achievements);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch achievements' }, { status: 500 });
   }
@@ -21,17 +22,16 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    await connectDB();
     const body = await request.json();
-    const data = readDb();
     
-    const newAchievement: Achievement = {
+    const achievementCount = await Achievement.countDocuments();
+    
+    const newAchievement = await Achievement.create({
       ...body,
       id: `achievement-${Date.now()}`,
-      order: data.achievements.length + 1,
-    };
-    
-    data.achievements.push(newAchievement);
-    writeDb(data);
+      order: achievementCount + 1,
+    });
     
     return NextResponse.json(newAchievement);
   } catch (error) {
@@ -47,19 +47,20 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
+    await connectDB();
     const body = await request.json();
-    const data = readDb();
     
-    const index = data.achievements.findIndex(a => a.id === body.id);
+    const achievement = await Achievement.findOneAndUpdate(
+      { id: body.id },
+      body,
+      { new: true }
+    );
     
-    if (index === -1) {
+    if (!achievement) {
       return NextResponse.json({ error: 'Achievement not found' }, { status: 404 });
     }
     
-    data.achievements[index] = body;
-    writeDb(data);
-    
-    return NextResponse.json(data.achievements[index]);
+    return NextResponse.json(achievement);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update achievement' }, { status: 500 });
   }
@@ -80,9 +81,8 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'ID required' }, { status: 400 });
     }
     
-    const data = readDb();
-    data.achievements = data.achievements.filter(a => a.id !== id);
-    writeDb(data);
+    await connectDB();
+    await Achievement.findOneAndDelete({ id });
     
     return NextResponse.json({ success: true });
   } catch (error) {

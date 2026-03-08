@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { readDb, updateSection } from '@/lib/db';
+import connectDB from '@/lib/mongodb';
+import { SkillCategory } from '@/lib/models/skills';
 
 export async function GET() {
   try {
-    const data = readDb();
-    return NextResponse.json(data.skillCategories);
+    await connectDB();
+    const skillCategories = await SkillCategory.find().sort({ order: 1 });
+    return NextResponse.json(skillCategories);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch skills' }, { status: 500 });
   }
@@ -20,8 +22,13 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
+    await connectDB();
     const body = await request.json();
-    updateSection('skillCategories', body);
+    
+    // Delete all existing categories and insert new ones
+    await SkillCategory.deleteMany({});
+    await SkillCategory.insertMany(body);
+    
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update skills' }, { status: 500 });
