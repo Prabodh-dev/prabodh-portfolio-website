@@ -7,7 +7,7 @@ export interface HeroContent {
   buttons: {
     label: string;
     link: string;
-    type: 'primary' | 'secondary';
+    type: "primary" | "secondary";
   }[];
 }
 
@@ -45,7 +45,7 @@ export interface Project {
   liveLink?: string;
   thumbnail?: string;
   gallery?: string[];
-  status: 'ongoing' | 'completed' | 'archived';
+  status: "ongoing" | "completed" | "archived";
   featured: boolean;
   tags: string[];
   order: number;
@@ -88,6 +88,8 @@ export interface Experience {
 export interface ResumeContent {
   fileName?: string;
   uploadDate?: string;
+  url?: string;
+  downloadUrl?: string;
 }
 
 export interface ContactContent {
