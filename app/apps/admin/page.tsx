@@ -76,7 +76,7 @@ export default function AdminDashboard() {
           </h1>
           <div className="flex gap-4 items-center">
             <Link
-              href="/"
+              href="/old"
               className="px-4 py-2 neon-box text-retro-cyan hover:shadow-neon-cyan transition-all font-mono uppercase"
             >
               View Site
