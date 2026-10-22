@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import GameLoader from '@/components/GameLoader';
 import GameHeader from '@/components/GameHeader';
+import NoticeBar from '@/components/NoticeBar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
@@ -170,7 +171,12 @@ export default function Home() {
   }, [loading]);
 
   if (loading) {
-    return <GameLoader />;
+    return (
+      <>
+        <NoticeBar />
+        <GameLoader />
+      </>
+    );
   }
 
   return (
@@ -192,6 +198,7 @@ export default function Home() {
       
       {/* Content with fade-in animation - z-10 to be above everything except ghost mascot */}
       <div className="relative animate-fadeIn" style={{ zIndex: 10 }}>
+        <NoticeBar />
         <GameHeader />
         <HeroSection />
         <AboutSection />
