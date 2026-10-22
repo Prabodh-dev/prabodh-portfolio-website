@@ -13,7 +13,7 @@ export default function NoticeBar() {
       }}
     >
       <span>New version under construction.</span>
-      <a href="/next" className="underline hover:text-white">
+      <a href="/" className="underline hover:text-white">
         Take a look
       </a>
     </div>
