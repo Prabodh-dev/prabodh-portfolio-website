@@ -1,3 +1,5 @@
+const nextAppUrl = process.env.NEXT_APP_URL || 'http://localhost:3001'
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -6,6 +8,18 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: `${nextAppUrl}/next`,
+      },
+      {
+        source: '/next/:path*',
+        destination: `${nextAppUrl}/next/:path*`,
+      },
+    ];
   },
   async headers() {
     return [
