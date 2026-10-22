@@ -103,6 +103,10 @@ npm start
 
 **Deployment configuration and environment setup are maintained privately.**
 
+## Rebuild in progress
+
+The new version lives in `next/` and is a separate Next.js app (its own `package.json`, `basePath` of `/next`). Deploy it as its own Vercel project with the root directory set to `next/`. The old site rewrites `/next` to it.
+
 ## 📊 Architecture
 
 - **Frontend**: Server-side rendered React components
