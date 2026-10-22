@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Prabodh Raj | Under Construction",
-  robots: {
-    index: false,
-    follow: false,
-  },
+  title: "Prabodh Raj | Portfolio",
+  description: "Portfolio of Prabodh Raj. A new version of the site is under construction.",
 };
 
 export default function RootLayout({
