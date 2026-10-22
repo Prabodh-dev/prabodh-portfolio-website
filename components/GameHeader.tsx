@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ghostSpeak, GHOST_MESSAGES } from '@/lib/ghost-utils';
+import { NOTICE_BAR_HEIGHT } from '@/components/NoticeBar';
 
 export default function GameHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -81,6 +82,7 @@ export default function GameHeader() {
         WebkitBackdropFilter: scrolled ? 'blur(28px)' : 'blur(20px)',
         borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.12)' : '1px solid rgba(255, 255, 255, 0.07)',
         padding: '14px 0',
+        top: NOTICE_BAR_HEIGHT,
         zIndex: 100,
         transition: 'all 0.4s ease'
       }}
